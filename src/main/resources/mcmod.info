@@ -1,0 +1,16 @@
+[
+{
+  "modid": "peacefuldrops",
+  "name": "Peaceful Drops",
+  "description": "Mob drops in Peaceful mode",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["VictiniX"],
+  "credits": "The Forge and FML guys",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

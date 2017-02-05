@@ -1,4 +1,4 @@
-package victinix.peacefuldrops.lib;
+package victinix.peacefuldrops.recipes;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;

@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import victinix.peacefuldrops.lib.Data;
+import victinix.peacefuldrops.data.Data;
 import victinix.peacefuldrops.proxy.CommonProxy;
 
 @Mod(modid = Data.MODID, name = Data.NAME, version = Data.VERSION)

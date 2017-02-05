@@ -1,4 +1,4 @@
-package victinix.peacefuldrops.lib;
+package victinix.peacefuldrops.data;
 
 public class Data {
 

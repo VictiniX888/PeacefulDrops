@@ -1,6 +1,8 @@
 package victinix.peacefuldrops.events;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -10,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
@@ -72,6 +75,16 @@ public class Events {
                 world.setBlockToAir(pos);
                 world.spawnEntityInWorld(new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.STRING, 2)));
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void eventBone(LivingDropsEvent event) {
+
+        Entity entity = event.getEntity();
+
+        if(entity instanceof EntityChicken || entity instanceof EntityCow || entity instanceof EntityPig || entity instanceof EntityRabbit || entity instanceof EntitySheep || entity instanceof EntityVillager || entity instanceof EntityHorse || entity instanceof EntityWolf || entity instanceof EntityOcelot) {
+            event.getDrops().add(new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Items.BONE)));
         }
     }
 }

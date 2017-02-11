@@ -10,10 +10,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
@@ -85,6 +87,26 @@ public class Events {
 
         if(entity instanceof EntityChicken || entity instanceof EntityCow || entity instanceof EntityPig || entity instanceof EntityRabbit || entity instanceof EntitySheep || entity instanceof EntityVillager || entity instanceof EntityHorse || entity instanceof EntityWolf || entity instanceof EntityOcelot) {
             event.getDrops().add(new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Items.BONE)));
+        }
+    }
+
+    @SubscribeEvent
+    public void eventEnderPearl(ExplosionEvent.Detonate event) {
+
+        World world = event.getWorld();
+        Vec3d pos = event.getExplosion().getPosition();
+
+        world.spawnEntityInWorld(new EntityItem(world, pos.xCoord, pos.yCoord, pos.zCoord, new ItemStack(Items.GUNPOWDER, 2)));
+
+        for(Entity e : event.getAffectedEntities()) {
+            if(e instanceof EntityItem) {
+                ItemStack itemStack = ((EntityItem) e).getEntityItem();
+                int stack = itemStack.stackSize;
+
+                if(itemStack.getItem().equals(Items.EMERALD)) {
+                    world.spawnEntityInWorld(new EntityItem(world, pos.xCoord, pos.yCoord, pos.zCoord, new ItemStack(Items.ENDER_PEARL, stack)));
+                }
+            }
         }
     }
 }

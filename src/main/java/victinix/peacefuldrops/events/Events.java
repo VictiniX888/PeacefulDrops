@@ -9,15 +9,23 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraft.world.storage.loot.functions.LootFunction;
+import net.minecraft.world.storage.loot.functions.LootingEnchantBonus;
+import net.minecraft.world.storage.loot.functions.SetCount;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import victinix.peacefuldrops.data.Data;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +88,7 @@ public class Events {
         }
     }
 
+    /*
     @SubscribeEvent
     public void eventBone(LivingDropsEvent event) {
 
@@ -89,9 +98,23 @@ public class Events {
             event.getDrops().add(new EntityItem(entity.worldObj, entity.posX, entity.posY, entity.posZ, new ItemStack(Items.BONE)));
         }
     }
+    */
+
+    private List<ResourceLocation> entities = Arrays.asList(LootTableList.ENTITIES_CHICKEN, LootTableList.ENTITIES_COW, LootTableList.ENTITIES_PIG, LootTableList.ENTITIES_RABBIT, LootTableList.ENTITIES_SHEEP, LootTableList.ENTITIES_HORSE);
 
     @SubscribeEvent
-    public void eventEnderPearl(ExplosionEvent.Detonate event) {
+    public void eventBone(LootTableLoadEvent event) {
+
+        ResourceLocation name = event.getName();
+        LootPool main = event.getTable().getPool("main");
+
+        if(entities.contains(name)) {
+            main.addEntry(new LootEntryItem(Items.BONE, 1, 0, new LootFunction[]{new SetCount(new LootCondition[0], new RandomValueRange(0, 2)), new LootingEnchantBonus(new LootCondition[0], new RandomValueRange(0, 1), 1)}, new LootCondition[0], Data.MODID + ":bone"));
+        }
+    }
+
+    @SubscribeEvent
+    public void eventExplosion(ExplosionEvent.Detonate event) {  //ender pearls & gunpowder
 
         World world = event.getWorld();
         Vec3d pos = event.getExplosion().getPosition();

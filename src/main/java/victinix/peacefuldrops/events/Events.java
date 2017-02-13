@@ -103,13 +103,16 @@ public class Events {
     private List<ResourceLocation> entities = Arrays.asList(LootTableList.ENTITIES_CHICKEN, LootTableList.ENTITIES_COW, LootTableList.ENTITIES_PIG, LootTableList.ENTITIES_RABBIT, LootTableList.ENTITIES_SHEEP, LootTableList.ENTITIES_HORSE);
 
     @SubscribeEvent
-    public void eventBone(LootTableLoadEvent event) {
+    public void eventLootTable(LootTableLoadEvent event) {   //bone & slimeballs
 
         ResourceLocation name = event.getName();
         LootPool main = event.getTable().getPool("main");
 
         if(entities.contains(name)) {
             main.addEntry(new LootEntryItem(Items.BONE, 1, 0, new LootFunction[]{new SetCount(new LootCondition[0], new RandomValueRange(0, 2)), new LootingEnchantBonus(new LootCondition[0], new RandomValueRange(0, 1), 1)}, new LootCondition[0], Data.MODID + ":bone"));
+        }
+        else if(name.equals(LootTableList.GAMEPLAY_FISHING_JUNK)) {
+            main.addEntry(new LootEntryItem(Items.SLIME_BALL, 500, 0, new LootFunction[0], new LootCondition[0], Data.MODID + ":slime_ball"));
         }
     }
 

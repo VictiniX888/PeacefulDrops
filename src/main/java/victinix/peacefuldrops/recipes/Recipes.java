@@ -27,5 +27,9 @@ public class Recipes {
         GameRegistry.addShapelessRecipe(new ItemStack(Items.GHAST_TEAR),
                 new ItemStack(Items.BLAZE_POWDER),
                 new ItemStack(Items.WATER_BUCKET));
+
+        GameRegistry.addShapelessRecipe(new ItemStack(Items.SPIDER_EYE),
+                new ItemStack(Items.ENDER_EYE),
+                new ItemStack(Items.GHAST_TEAR));
     }
 }

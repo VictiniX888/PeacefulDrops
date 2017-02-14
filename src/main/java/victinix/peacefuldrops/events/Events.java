@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -13,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.storage.loot.*;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
@@ -123,10 +125,11 @@ public class Events {
     }
 
     @SubscribeEvent
-    public void eventExplosion(ExplosionEvent.Detonate event) {  //ender pearls & gunpowder
+    public void eventExplosion(ExplosionEvent.Detonate event) {  //ender pearls, gunpowder & nether star
 
         World world = event.getWorld();
         Vec3d pos = event.getExplosion().getPosition();
+        boolean hasEye = false, hasTear = false, hasMagma = false;
 
         world.spawnEntityInWorld(new EntityItem(world, pos.xCoord, pos.yCoord, pos.zCoord, new ItemStack(Items.GUNPOWDER, 2)));
 
@@ -138,9 +141,20 @@ public class Events {
                 if(itemStack.getItem().equals(Items.EMERALD)) {
                     world.spawnEntityInWorld(new EntityItem(world, pos.xCoord, pos.yCoord, pos.zCoord, new ItemStack(Items.ENDER_PEARL, stack)));
                 }
+                else if(itemStack.getItem().equals(Items.ENDER_EYE)) {
+                    hasEye = true;
+                }
+                else if(itemStack.getItem().equals(Items.GHAST_TEAR)) {
+                    hasTear = true;
+                }
+                else if(itemStack.getItem().equals(Items.MAGMA_CREAM)) {
+                    hasMagma = true;
+                }
             }
         }
 
-
+        if(hasEye && hasTear && hasMagma && world.getBiome(new BlockPos(pos)).equals(Biomes.HELL)) {
+            world.spawnEntityInWorld(new EntityItem(world, pos.xCoord, pos.yCoord, pos.zCoord, new ItemStack(Items.NETHER_STAR)));
+        }
     }
 }

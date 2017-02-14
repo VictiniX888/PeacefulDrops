@@ -46,11 +46,11 @@ public class Events {
     }
 
     @SubscribeEvent
-    public void eventBlazeRod(PlayerEvent.ItemCraftedEvent event) {
+    public void eventCrafting(PlayerEvent.ItemCraftedEvent event) {   //blaze rods & ghast tears
 
         IInventory matrix = event.craftMatrix;
         Item crafted = event.crafting.getItem();
-        boolean hasStick = false, hasLava = false;
+        boolean hasStick = false, hasLava = false, hasWater = false, hasPowder = false;
         int filledSlots = 0;
 
         for (int i = 0; i < matrix.getSizeInventory(); i++) {
@@ -61,11 +61,17 @@ public class Events {
                 else if(matrix.getStackInSlot(i).getItem().equals(Items.LAVA_BUCKET)) {
                     hasLava = true;
                 }
+                else if(matrix.getStackInSlot(i).getItem().equals(Items.WATER_BUCKET)) {
+                    hasWater = true;
+                }
+                else if(matrix.getStackInSlot(i).getItem().equals(Items.BLAZE_POWDER)) {
+                    hasPowder = true;
+                }
                 filledSlots++;
             }
         }
 
-        if(event.player.dimension != -1 && hasStick && hasLava && filledSlots == 2 && crafted.equals(Items.BLAZE_ROD)) {
+        if(event.player.dimension != -1 && filledSlots == 2 && ((hasStick && hasLava && crafted.equals(Items.BLAZE_ROD)) || (hasWater && hasPowder && crafted.equals(Items.GHAST_TEAR)))) {
             event.crafting.stackSize--;
             event.player.setHealth(1f);
             event.player.setFire(5);
@@ -134,5 +140,7 @@ public class Events {
                 }
             }
         }
+
+
     }
 }

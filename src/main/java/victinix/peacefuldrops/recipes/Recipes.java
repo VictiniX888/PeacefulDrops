@@ -23,5 +23,9 @@ public class Recipes {
                 "ABA",
                 'A', new ItemStack(Blocks.NETHERRACK),
                 'B', new ItemStack(Blocks.SAND));
+
+        GameRegistry.addShapelessRecipe(new ItemStack(Items.GHAST_TEAR),
+                new ItemStack(Items.BLAZE_POWDER),
+                new ItemStack(Items.WATER_BUCKET));
     }
 }
